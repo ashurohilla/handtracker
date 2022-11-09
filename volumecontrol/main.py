@@ -7,12 +7,7 @@ import math
 import volumecontrolmodule as htm
 #from cvzone.SerialModule import SerialObject
 from time import sleep
-import serial
-try:
-    arduino = serial.Serial(port='COM3', baudrate=115200, timeout=.1)
-except:
-    print("port not found")    
-#arduino = SerialObject("COM11")
+
 wCam, hCam = 1240,780
 pTime = 0
 cTime = 0
@@ -20,12 +15,6 @@ cap = cv2.VideoCapture(0)
 cap.set(3, wCam)
 cap.set(4, hCam)
 detector = htm.handDetector()
-def write_read(leng,lent):
-    length = int(leng)
-    fingerlength = int(lent)
-    arduino.write([length])
-    data = arduino.readline()
-    return data
 while True:
     success, img = cap.read()
     img = detector.findHands(img, draw=True)
