@@ -7,7 +7,7 @@ def showNumbers():
     wCam, hCam = 1700, 900
     
     # cap = cv2.VideoCapture(1)
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
     cap.set(3, wCam)
     cap.set(4, hCam)
     
@@ -22,25 +22,10 @@ def showNumbers():
         img = detector.findHands(img)
         lmList = detector.findPosition(img, draw=False)
     
-        # exit
-        cv2.putText(img, str("Exit"), (1720, 100), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,0), 3)
-        cv2.rectangle(img, (1680, 50), (1870, 130), (0,0,0), 4, 8)
-
-        # Open Softwares
-        cv2.putText(img, str("Open Softwares"), (820, 190), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,0), 3)
-        cv2.rectangle(img, (800, 130), (1100, 230), (0, 0, 0), 4, 8)        
-
-        # Control Volume
-        cv2.putText(img, str("Control Volume"), (1155, 190), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,0), 3)
-        cv2.rectangle(img, (1135, 130), (1435, 230), (0, 0, 0), 4, 8)
-        
         if len(lmList) != 0:
-            x1, y1 = lmList[4][1], lmList[4][2]
-            x2, y2 = lmList[8][1], lmList[8][2]
+            x1, y1 = lmList[8][1], lmList[8][2]
+            x2, y2 = lmList[12][1], lmList[12][2]
             fingers = []
-            if ((x1 >= 1620 and y1 >= 190) and (x1 <= 1820 and y1 <= 400)):
-                print("cola")
-                break
             # Thumb
             if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1]:
                 fingers.append(1)
@@ -56,11 +41,20 @@ def showNumbers():
     
             # print(fingers)
             totalFingers = fingers.count(1)
+
+            
+            # exit
+            cv2.putText(img, str("Exit"), (1720, 100), cv2.FONT_HERSHEY_PLAIN, 3, (0,0,0), 3)
+            cv2.rectangle(img, (1680, 50), (1870, 130), (0,0,0), 4, 8)
             if (((x1 > 1700 and y1 > 60) and (x1 < 1860 and y1 < 130)) and ((x2 > 1720 and y2 > 80) and (x2 < 1850 and y2 < 130))):
-                break
-            cv2.rectangle(img, (20, 225), (170, 425), (0, 255, 0), cv2.FILLED)
+                # break
+                import main
+                main.lola()
+            
+            
+            cv2.rectangle(img, (20, 225), (170, 425), (0, 0, 0), cv2.FILLED)
             cv2.putText(img, str(totalFingers), (45, 375), cv2.FONT_HERSHEY_PLAIN,
-                        10, (255, 0, 0), 25)
+                        10, (255, 255, 255), 25)
 
         
 
